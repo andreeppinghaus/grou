@@ -1,13 +1,14 @@
-#ifndef PERSONAGEM_H
-#define PERSONAGEM_H
+#ifndef MONSTRO_H
+#define MONSTRO_H
 
 #include <string>
 #include <vector>
 #include <list>
 #include <iostream>
 #include <assert.h>
+#include "Monstro.h"
 
-class Personagem
+class Monstro : public Monstro
 {
 public:
 	int velocidade;
@@ -22,7 +23,7 @@ public:
         
         int invertido;
       
-        Personagem *objeto_colisao;
+        Monstro *objeto_colisao;
         
         BITMAP *imagem;
         
@@ -37,7 +38,7 @@ public:
         int colisao_base;
 
 public:
-        Personagem(int x, int y, BITMAP *frame);
+        Monstro(int x, int y, BITMAP *frame);
         
 	void baixo();
 
@@ -51,16 +52,14 @@ public:
         
         void posicao();
 
-	int colisao(Personagem *objeto);
+	int colisao(Monstro *objeto);
 
 	void controle(volatile char key[]);
 
 	void desenha(BITMAP *buffer);
-	
-	int aleatorio(int max);
         
 };
-Personagem::Personagem(int x, int y,BITMAP *frame)
+Monstro::Monstro(int x, int y,BITMAP *frame)
 {
 
     this->pos_y=y;
@@ -72,29 +71,29 @@ Personagem::Personagem(int x, int y,BITMAP *frame)
     
 }
 
-void Personagem::baixo()
+void Monstro::baixo()
 {
     pos_y++;
 }
 
-void Personagem::cima()
+void Monstro::cima()
 {
     pos_y--;
 }
 
-void Personagem::esquerda()
+void Monstro::esquerda()
 {
     pos_x--;
     invertido=TRUE;
 }
 
-void Personagem::direita()
+void Monstro::direita()
 {
     pos_x++;
     invertido=FALSE;
 }
 
-void Personagem::gravidade(volatile char key[])
+void Monstro::gravidade(volatile char key[])
 {
      if(key[KEY_UP])
     {
@@ -105,7 +104,7 @@ void Personagem::gravidade(volatile char key[])
     
 }
 
-void Personagem::posicao()
+void Monstro::posicao()
 {
     this->colisao_esquerda = pos_x;
     this->colisao_topo=pos_y;
@@ -113,7 +112,7 @@ void Personagem::posicao()
     this->colisao_base = (this->colisao_topo +this->imagem->h );
     
 }
-int Personagem::colisao(Personagem *objeto)
+int Monstro::colisao(Monstro *objeto)
 {
     
     this->_colisao = TRUE; // Assume that there is no collision
@@ -141,7 +140,7 @@ int Personagem::colisao(Personagem *objeto)
     return this->_colisao;
 }
 
-void Personagem::controle(volatile char key[])
+void Monstro::controle(volatile char key[])
 {
    if(key[KEY_RIGHT])
     {
@@ -164,7 +163,7 @@ void Personagem::controle(volatile char key[])
 			
 }
 
-void Personagem::desenha(BITMAP *buffer)
+void Monstro::desenha(BITMAP *buffer)
 {
     if (invertido==FALSE) {
         draw_sprite(buffer, this->imagem, this->pos_x, this->pos_y);//Draw the first frame
@@ -175,10 +174,5 @@ void Personagem::desenha(BITMAP *buffer)
 			
 }
 
-int Personagem::aleatorio(int max){
-    
- return rand() % max;
-    
-}
 
 #endif

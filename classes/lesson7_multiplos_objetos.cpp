@@ -29,6 +29,8 @@ email: jay@loomsoft.net
 
 #include <allegro.h> // You must include the Allegro Header file
 #include "Personagem.h"
+//#include "Monstro.h"
+
 
 
 /* Timer stuff */
@@ -60,6 +62,8 @@ int main(int argc, char *argv[])
 	BITMAP *frame = load_bitmap("submarino.bmp", NULL); // Declare a bitmap and Load our picture in one single statement
 	
 	BITMAP *frame1 = load_bitmap("submarino-red.bmp", NULL); // Declare a bitmap and Load our picture in one single statement
+	
+//	BITMAP *frame2 = load_bitmap("salto2.bmp", NULL); // Declare a bitmap and Load our picture in one single statement
 			
 	/* This code is the same as in the previous lesson. Create the buffer, and location
 	 * holders for the position of the frames.
@@ -71,8 +75,10 @@ int main(int argc, char *argv[])
 	 * CRIACAO dos personagens
 	 */
 	Personagem *monstro[5];
-	monstro[0]= new Personagem(100,100, frame1);
-	monstro[1] = new Personagem(100,200, frame1);
+	for (int x=0; x<5;x++) {
+		monstro[x] = new Personagem(monstro[x]->aleatorio(640),monstro[x]->aleatorio(480), frame1);
+	}
+	
 	Personagem *heroi = new Personagem(0,0, frame);
 	
 	
@@ -90,9 +96,12 @@ int main(int argc, char *argv[])
 		{
 			heroi->controle(key); //controle do teclado
 			//heroi->gravidade(key); // aplicacao da gravidade
-			monstro[0]->posicao(); //atualiza a posicao do objeto para a colisao
-			monstro[1]->posicao();//atualiza a posicao do objeto para a colisao
 			
+			for (int x=0; x<5;x++) {
+			
+				monstro[x]->posicao();
+			}
+						
 			
 			//teste de colisao só avisa se for colidir		
 			if (monstro[0]->colisao(heroi)==TRUE) {
@@ -125,9 +134,12 @@ int main(int argc, char *argv[])
 												
 		
 		heroi->desenha(buffer); //imprime objeto
-		monstro[0]->desenha(buffer); //imprime objeto
-		monstro[1]->desenha(buffer);//imprime objeto
 		
+		for (int x=0; x<5;x++) {
+			
+				monstro[x]->desenha(buffer); //imprime objeto
+			}
+				
 		/* End of the drawing portion -- same as the previous lesson's */
 		blit(buffer, screen, 0,0,0,0,640,480); //Draw the buffer to the screen
 		clear_bitmap(buffer);
