@@ -29,7 +29,7 @@ email: jay@loomsoft.net
 
 #include <allegro.h> // You must include the Allegro Header file
 #include "Personagem.h"
-#include "Jogador1.h"
+
 
 /* Timer stuff */
 volatile long speed_counter = 0; //A long integer which will store the value of the
@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
 	set_gfx_mode(GFX_SAFE, 640,480,0,0); // Change our graphics mode to 640x480
 			
 	
-	BITMAP *frame = load_bitmap("salto5.bmp", NULL); // Declare a bitmap and Load our picture in one single statement
+	BITMAP *frame = load_bitmap("submarino.bmp", NULL); // Declare a bitmap and Load our picture in one single statement
 	
 	BITMAP *frame1 = load_bitmap("salto1.bmp", NULL); // Declare a bitmap and Load our picture in one single statement
 	
@@ -72,8 +72,9 @@ int main(int argc, char *argv[])
 	/*
 	 * CRIACAO dos personagens
 	 */
-	Personagem *monstro = new Personagem(100,100, frame1);
-	Personagem *monstro2 = new Personagem(100,200, frame2);
+	Personagem *monstro[5];
+	monstro[0]= new Personagem(100,100, frame1);
+	monstro[1] = new Personagem(100,200, frame2);
 	Personagem *heroi = new Personagem(0,0, frame);
 	
 	
@@ -91,16 +92,16 @@ int main(int argc, char *argv[])
 		{
 			heroi->controle(key); //controle do teclado
 			//heroi->gravidade(key); // aplicacao da gravidade
-			monstro->posicao(); //atualiza a posicao do objeto para a colisao
-			monstro2->posicao();//atualiza a posicao do objeto para a colisao
+			monstro[0]->posicao(); //atualiza a posicao do objeto para a colisao
+			monstro[1]->posicao();//atualiza a posicao do objeto para a colisao
 			
 			
 			//teste de colisao só avisa se for colidir		
-			if (monstro->colisao(heroi)==TRUE) {
+			if (monstro[0]->colisao(heroi)==TRUE) {
 				textprintf_ex(buffer, font, 0,0, makecol(255,255,255), -1, "Collision!");
 			}
 			
-			if (monstro2->colisao(heroi)==TRUE) {
+			if (monstro[1]->colisao(heroi)==TRUE) {
 				textprintf_ex(buffer, font, 0,0, makecol(255,255,255), -1, "Collision!");
 			}
 			
@@ -126,8 +127,8 @@ int main(int argc, char *argv[])
 												
 		
 		heroi->desenha(buffer); //imprime objeto
-		monstro->desenha(buffer); //imprime objeto
-		monstro2->desenha(buffer);//imprime objeto
+		monstro[0]->desenha(buffer); //imprime objeto
+		monstro[1]->desenha(buffer);//imprime objeto
 		
 		/* End of the drawing portion -- same as the previous lesson's */
 		blit(buffer, screen, 0,0,0,0,640,480); //Draw the buffer to the screen
